@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  plan      Plan     @default(FREE)
+  audits    Audit[]
+  createdAt DateTime @default(now())
+}
+
+model Audit {
+  id          String      @id @default(cuid())
+  url         String
+  status      AuditStatus @default(PENDING)
+  score       Int?
+  seoScore    Int?
+  perfScore   Int?
+  a11yScore   Int?
+  issues      Json?
+  aiReport    String?
+  screenshot  String?
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  createdAt   DateTime    @default(now())
+  completedAt DateTime?
+}
+
+enum AuditStatus {
+  PENDING
+  CRAWLING
+  ANALYZING
+  COMPLETE
+  FAILED
+}
+
+enum Plan {
+  FREE
+  PRO
+  AGENCY
+}
