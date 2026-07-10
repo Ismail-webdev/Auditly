@@ -27,7 +27,7 @@ model Audit {
   aiReport    String?
   screenshot  String?
   userId      String
-  user        User        @relation(fields: [userId], references: [id])
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime    @default(now())
   completedAt DateTime?
 }
@@ -38,6 +38,7 @@ enum AuditStatus {
   ANALYZING
   COMPLETE
   FAILED
+  BLOCKED
 }
 
 enum Plan {
