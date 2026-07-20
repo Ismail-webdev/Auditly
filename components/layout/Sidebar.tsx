@@ -8,7 +8,13 @@ export default async function Sidebar() {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
 
-  const sideBarLinks = [
+  interface SidebarLink {
+    name: string;
+    href: string;
+    icon: React.ElementType;
+  }
+
+  const sideBarLinks: SidebarLink[] = [
     {
       name: "Dashboard",
       href: "/dashboard",
